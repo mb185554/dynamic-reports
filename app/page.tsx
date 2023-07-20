@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,7 +6,7 @@ import MainContent from "./content";
 
 const queries = MainContent.map((obj: { query: any }) => obj.query);
 
-const GPT = MainContent.map((obj: { answer: any; graphSrc: any }) => {
+const GPT = MainContent.map((obj) => {
   return { answer: obj.answer, graphSrc: obj.graphSrc };
 });
 
@@ -33,8 +34,8 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, [res]);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="flex flex-col w-full mb-6 max-w-[789px]">
+    <main className="flex min-h-screen flex-col items-center justify-between p-8">
+      <div className="flex flex-col w-full mb-6 max-w-full md:max-w-[689px]">
         <h2 className="text-[#333] text-[1.4rem] pb-2">Dynamic Reports</h2>
         <div className="flex flex-row w-full">
           <input
