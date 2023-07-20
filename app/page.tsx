@@ -1,21 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import MainContent from "./content";
 
-const mainContent = [
-  {
-    query: "Who is the best developer in the world?",
-    answer: `This text will be revealed like magic and will be wrapped and beautifully set in the response preserving newlines.
-    
-    I think everyone should agree Mayur is the greatest UI developer of all time. Here's is the proof as an image:
-    `,
-    graphSrc: "/v.png",
-  },
-];
+const queries = MainContent.map((obj: { query: any }) => obj.query);
 
-const queries = mainContent.map((obj) => obj.query);
-
-const GPT = mainContent.map((obj) => {
+const GPT = MainContent.map((obj: { answer: any; graphSrc: any }) => {
   return { answer: obj.answer, graphSrc: obj.graphSrc };
 });
 
@@ -60,7 +50,13 @@ export default function Home() {
           <button
             type="button"
             onClick={() => {
-              if (queries.find((a) => a === value)) {
+              if (
+                queries.find(
+                  (a: string) =>
+                    a.toLowerCase() ===
+                    value.trim().replace('"', "").toLowerCase()
+                )
+              ) {
                 const idx = queries.indexOf(value);
                 console.log(idx);
                 setRes(GPT[idx].answer);
@@ -86,7 +82,11 @@ export default function Home() {
               {displayResponse}
             </p>
             {completedTyping && graphSrc !== "" && (
-              <img src={graphSrc} alt="dfgvb" className="p-4 rounded-lg" />
+              <img
+                src={graphSrc}
+                alt="dfgvb"
+                className="p-4 w-[100%] h-[100%] object-fill rounded-lg flex"
+              />
             )}
           </div>
         )}
