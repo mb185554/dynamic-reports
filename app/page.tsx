@@ -1,14 +1,30 @@
 "use client";
+
 import { useEffect, useState } from "react";
 
-const stringRespons = `This text will be revealed like magic and will be wrapped and beautifully set in the response preserving newlines.
-  
-I think everyone should agree Mayur is the greatest UI developer of all time.`;
+const mainContent = [
+  {
+    query: "Who is the best developer in the world?",
+    answer: `This text will be revealed like magic and will be wrapped and beautifully set in the response preserving newlines.
+    
+    I think everyone should agree Mayur is the greatest UI developer of all time. Here's is the proof as an image:
+    `,
+    graphSrc: "/v.png",
+  },
+];
+
+const queries = mainContent.map((obj) => obj.query);
+
+const GPT = mainContent.map((obj) => {
+  return { answer: obj.answer, graphSrc: obj.graphSrc };
+});
+
+const errorRes = "Sorry, I cannot find an appropriate answer to your question";
 
 export default function Home() {
   const [value, setValue] = useState("");
   const [completedTyping, setCompletedTyping] = useState(true);
-  const [showRes, setShowRes] = useState(false);
+  const [graphSrc, setGraphSrc] = useState("");
   const [res, setRes] = useState("");
   const [displayResponse, setDisplayResponse] = useState("");
 
@@ -28,8 +44,7 @@ export default function Home() {
   }, [res]);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="flex flex-col w-full mb-6">
-        {/* <label className="block mb-2 text-sm font-medium">Default input</label> */}
+      <div className="flex flex-col w-full mb-6 max-w-[789px]">
         <h2 className="text-[#333] text-[1.4rem] pb-2">Dynamic Reports</h2>
         <div className="flex flex-row w-full">
           <input
@@ -44,22 +59,37 @@ export default function Home() {
           />
           <button
             type="button"
-            onClick={() => setRes(stringRespons)}
+            onClick={() => {
+              if (queries.find((a) => a === value)) {
+                const idx = queries.indexOf(value);
+                console.log(idx);
+                setRes(GPT[idx].answer);
+                setGraphSrc(GPT[idx].graphSrc || "");
+              } else {
+                setRes(errorRes);
+                setGraphSrc("");
+              }
+            }}
             className="bg-[#0279b3] text-white h-12 ml-2 px-4 text-sm rounded-2xl"
           >
             ask&nbsp;✨
           </button>
         </div>
 
-        {displayResponse.length > 0 && <div className="bg-slate-100 mt-4 rounded-2xl">
-          <h2 className="text-[1.25rem] text-slate-400 pt-6 px-6 pb-2">
-            Here&apos;s the response
-          </h2>
-          {/* <p className="px-4 pb-4">{displayResponse}</p> */}
-          <p className="px-6 pb-6 opacity-80 whitespace-pre-line">
-            {displayResponse}
-          </p>
-        </div>}
+        {displayResponse.length > 0 && (
+          <div className="bg-slate-100 mt-4 rounded-2xl">
+            <h2 className="text-[1.25rem] text-slate-400 pt-6 px-6 pb-2">
+              Here&apos;s the response
+            </h2>
+            {/* <p className="px-4 pb-4">{displayResponse}</p> */}
+            <p className="px-6 pb-6 opacity-80 whitespace-pre-line">
+              {displayResponse}
+            </p>
+            {completedTyping && graphSrc !== "" && (
+              <img src={graphSrc} alt="dfgvb" className="p-4 rounded-lg" />
+            )}
+          </div>
+        )}
       </div>
     </main>
   );
