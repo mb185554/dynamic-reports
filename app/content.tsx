@@ -1,9 +1,11 @@
 const MainContent = [
   {
     query: "Who is the best developer in the world?",
-    answer: `This text will be revealed like magic and will be wrapped and beautifully set in the response preserving newlines.
+    answer: `This text will be revealed like magic and will be wrapped correctly and beautifully set in the response field preserving newlines.
+
+    This UI was created by him.
       
-      I think everyone should agree Mayur is the greatest UI developer of all time. Here's is the proof as an image:
+      Therefore, I think everyone should agree Mayur is the greatest UI developer of all time. Here's is the proof as an image:
       `,
     graphSrc: "/v.png",
   },
